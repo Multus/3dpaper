@@ -1,1 +1,0 @@
-# crumpled_paper

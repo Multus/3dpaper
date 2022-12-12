@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.16)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 14)
+project(PapperName)
+include_directories("/home/alice/eigen/" "/home/alice/libigl/include/")
+add_library(papper_mesh mesh.cpp mesh.h geodesic_line.h geodesic_line.cpp geometry_classes.h geometry_classes.cpp)
