@@ -1,15 +1,12 @@
 #include <vector>
 #include <list>
+#include <iostream>
 
 #include "geodesic_line.h"
 
 
-Geodesic_line::Geodesic_line(Point vertex, Point begin, Point end, double theta): 
-    vertex(vertex), begin(begin), end(end), theta(theta) {
-    if (vertex.x == begin.x and vertex.y == begin.y and vertex.z == begin.z) {
-        geodesic_curve.push_back(Node(0, vertex));
-        return;
-    }
+Geodesic_line::Geodesic_line(Point begin, std::vector<Point>& main_tangent, Point end_side, double dist, double lenth, double theta) : lenth(lenth), begin(begin), main_tangent(main_tangent), theta(theta) {
+    end = begin + end_side * dist;
     calculate_curve_using_end();
 }
 
@@ -55,6 +52,7 @@ bool Geodesic_line::bezier_curve() {
         Node(0.6,  begin, first_inter_point, second_inter_point, end), 
         Node(1, begin, first_inter_point, second_inter_point, end)};
 
+
     bool stop_flg = false;
     while (!stop_flg) {
         stop_flg = true;
@@ -64,6 +62,8 @@ bool Geodesic_line::bezier_curve() {
             if (it_next == geodesic_curve.cbegin()) {
                 ++it_next; ++it_next; ++it_base;
             }
+
+
             if ((*it_base).get_angle(*it_prev, *it_next) < theta) {
                 stop_flg = false;
                 geodesic_curve.emplace(it_base, ((*it_prev).bezier_param + (*it_base).bezier_param)/2, begin, first_inter_point, second_inter_point, end);
@@ -75,14 +75,7 @@ bool Geodesic_line::bezier_curve() {
         }
     }
 
-    // auto end_it = geodesic_curve.rend();
-    // Point fiction = Point((*end_it).point.x - (*(geodesic_curve.cbegin())).point.x, 
-    //     (*end_it).point.y - (*(geodesic_curve.cbegin())).point.y, 0);
-    // while (((*end_it).point).get_angle((*(end_it + 1)).point, fiction)) {
-    //     geodesic_curve.emplace(end_it, ((*(end_it + 1)).bezier_param + 1)/2, begin, first_inter_point, second_inter_point, end);
-    // }
-
-    if (get_curve_length(geodesic_curve) - vertex.get_dist(end) < 0) {
+    if (get_curve_length(geodesic_curve) - lenth < 0) {
         return true;
     }
     else {
@@ -92,12 +85,14 @@ bool Geodesic_line::bezier_curve() {
 
 
 void Geodesic_line::get_first_inter_point(double t) {
-    first_inter_point = begin.get_mid(vertex, t);
+    Point base_point = begin + main_tangent[0] * lenth;
+    first_inter_point = begin.get_mid(base_point, t);
 }
 
 
 void Geodesic_line::get_second_inter_point(double t) {
-    second_inter_point = end.get_mid(vertex, t);
+    Point base_point = end + main_tangent[1] * lenth;
+    second_inter_point = end.get_mid(base_point, t);
 }
 
 
@@ -105,11 +100,11 @@ void Geodesic_line::calculate_curve_using_end() {
     for (double t = 1; t > 0; t -= 0.1) {
         get_first_inter_point(t);
         get_second_inter_point(t);
+
         if (bezier_curve()) {
             break;
         }
     }
-    // error: large dist
 }
 
 

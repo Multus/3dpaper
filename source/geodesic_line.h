@@ -16,13 +16,16 @@ private:
     struct Node;
 public:
     /*!
-     * @param vertex угол бумаги в изначальном состоянии 
-     * @param begin точка, в которую переходит угол бумаги после изгиба
-     * @param end точка, на границе изогнутого и плоского регионов
-     * @param theta угол, достаточный для того, чтобы считать бумагу гладкой 
+     * @param begin точка, в которой начинается кривая
+     * @param main_tangent вектор из 2 точек, задающий касательные к бумаге в начале и конце геодезической кривой
+     * @param end_side точка, задающая направление, в котором будет конец геодезической кривой
+     * @param dist расстояние на котором будет конец геодезической кривой
+     * @param lenth длина геодезической кривой
+     * @param theta угол, при достижении которого считаем бумагу гладкой
      * @note Рассчитывает точки геодезической кривой
      */
-    Geodesic_line(Point vertex, Point begin, Point end, double theta = 175);
+    // Geodesic_line(Point vertex, Point begin, Point end, double theta = 175);
+    Geodesic_line(Point begin, std::vector<Point>& main_tangent, Point end_side, double dist, double lenth, double theta = 175);
     ~Geodesic_line() = default;
 
     /*!
@@ -37,6 +40,9 @@ private:
     Point second_inter_point;
     double theta;
     std::list<Node> geodesic_curve;
+
+    double lenth;
+    std::vector<Point>& main_tangent;
 
 
     struct Node;

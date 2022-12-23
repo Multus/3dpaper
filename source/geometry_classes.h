@@ -37,6 +37,30 @@ struct Point {
     ~Point() = default;
 
     /*!
+     * @param another - другая точка
+     * @note Оператор +
+     */
+    Point operator+(Point another) {
+        return Point(x+another.x, y + another.y, z + another.z);
+    }
+
+    /*!
+     * @param another - другая точка
+     * @note Оператор -
+     */
+    Point operator-(Point another) {
+        return Point(x-another.x, y - another.y, z - another.z);
+    }
+
+    /*!
+     * @param coeff - коеффициент умножения
+     * @note Оператор *
+     */
+    Point operator*(double coeff) {
+        return Point(x * coeff, y * coeff, z * coeff);
+    }
+
+    /*!
      * @param another - точка другого конца отрезка
      * @param t - отношение в котором делится отрезок
      * @note Функция, возвращающая точку, делящую отрезок в отношении t
