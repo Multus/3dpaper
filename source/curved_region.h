@@ -65,7 +65,7 @@ public:
      * @param file_name имя файла с заданными параметрами бумаги
      * @note Создает регион бумаги
      */
-    Paper(std::string& file_name);
+    Paper(std::string file_name);
 
     /*!
      * @param file_name имя файла, в который сохранится 3d mesh представление бумаги
