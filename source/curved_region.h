@@ -71,7 +71,7 @@ public:
      * @param file_name имя файла, в который сохранится 3d mesh представление бумаги
      * @note Возвращает 3d mesh регион бумаги
      */
-    void get_file(std::string& file_name);
+    void get_file(std::string file_name);
 private:
     Eigen::MatrixXi V;
     Eigen::MatrixXi F;
