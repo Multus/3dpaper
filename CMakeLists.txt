@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD 14)
-project(Papper)
+project(Paper3d)
 include_directories(use_examples source)
 include_directories("lib/eigen/" "lib/libigl/include/")
 add_subdirectory(use_examples source)
